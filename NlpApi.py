@@ -8,7 +8,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/', methods=['POST'])
+@app.route('/processDoc', methods=['POST'])
 def parse_request():
     data = request.get_data()
     return initialize_nlp_process(data)
@@ -21,12 +21,12 @@ def initialize_nlp_process(data):
 
     doc = process_data(data)
     for noun in doc.noun_chunks:
-        nouns_json.append(noun.text)
+        nouns_json.append(noun.text.lower())
     for token in doc:
         if token.pos_ == "VERB":
-            verbs_json.append(token.lemma_)
+            verbs_json.append(token.lemma_.lower())
     for entity in doc.ents:
-        entity_json.append(entity.text)
+        entity_json.append(entity.text.lower())
     return jsonify({"NounPhrases": nouns_json, "Verbs": verbs_json, "Entities": entity_json})
 
 
