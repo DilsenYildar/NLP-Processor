@@ -1,6 +1,7 @@
+import json
+
 import flask
 import spacy
-import json
 from flask import jsonify
 from flask import request
 
@@ -8,7 +9,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/processDoc', methods=['POST'])
+@app.route('/process-doc', methods=['POST'])
 def parse_request():
     data = request.get_data()
     return initialize_nlp_process(data)

@@ -4,8 +4,9 @@ MAINTAINER dilsenyildar
 #    apt install -y python-pip python-dev
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt /app/requirements.txt
+COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-COPY . /app
+EXPOSE 5000
 ENTRYPOINT [ "python" ]
-CMD [ "NlpApi.py" ]
+CMD python ./NlpApi.py
