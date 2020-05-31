@@ -8,11 +8,16 @@ from flask import request
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+nlp = spacy.load("en_core_web_lg")
+all_stopwords = nlp.Defaults.stop_words
+all_stopwords.remove("the")
 
 @app.route('/process-doc', methods=['POST'])
 def parse_request():
     data = request.get_data()
-    return initialize_nlp_process(data)
+    response = initialize_nlp_process(data)
+    print(response)
+    return response
 
 
 def initialize_nlp_process(data):
@@ -20,10 +25,7 @@ def initialize_nlp_process(data):
     verbs_json = []
     entity_json = []
 
-    nlp = spacy.load("en_core_web_lg")
     doc = process_data(data, nlp)
-    all_stopwords = nlp.Defaults.stop_words
-    all_stopwords.remove("the")
 
     for noun in doc.noun_chunks:
         nounWords = noun.text.split()
