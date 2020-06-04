@@ -46,7 +46,7 @@ def initialize_nlp_process(data):
 
 
 def process_data(data, nlp):
-    request_json = json.loads(data)
+    request_json = json.loads(data.decode())
     text = request_json['document']
     return nlp(text)
 
